@@ -2,47 +2,55 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const App = () => {
-    const course = 'Half Stack Application Development'
-    const part1 = 'Fundamentals of React'
-    const excercises1 = 10
-    const part2 = 'Using props to pass data'
-    const excercises2 = 7
-    const part3 = 'State of a component'
-    const excercises3 = 14
-    
+    const course = {
+        name:'Half Stack Application Development',
+        parts : [
+                    {
+                        name:'Fundamentals of React',
+                    excercises : 10
+                    },
+                    {
+                        name:'Using props to pass data',
+                        excercises: 7
+                    },
+                    {
+                        name:'State of a component',
+                        excercises : 14
+                    }
+                ]}
     return (
         <div>
             <Header course={course}/>
-            <Content p1={part1} p2={part2} p3={part3} ex1={excercises1} ex2={excercises2} ex3={excercises3}/>    
-            <Total ex1={excercises1} ex2={excercises2} ex3={excercises3}/>
+            <Content parts={course.parts} />    
+            <Total parts={course.parts} />
         </div>    
     )
 }
 
 const Header = ({course}) => (
-    <h1> {course} </h1> 
+    <h1> {course.name} </h1> 
 )
 
-const Content = ({p1,p2,p3,ex1,ex2,ex3}) => {
+const Content = ({parts}) => {
     return (
         <div>    
-            <Part part={p1} excercises={ex1}/>
-            <Part part={p2} excercises={ex2}/>
-            <Part part={p3} excercises={ex3}/>
+            <Part part = {parts[0]} />
+            <Part part = {parts[1]} />
+            <Part part = {parts[2]} />
         </div> 
     )
 }
 
-const Part = ({part, excercises}) => {
+const Part = ({part}) => {
     return (
-        <p> {part} {excercises} </p>
+        <p> {part.name} {part.excercises} </p>
     )
 }
 
-const Total = ({ex1, ex2, ex3}) => {
+const Total = ({parts}) => {
     return (
      
-    <p>Number of excercises {ex1 + ex2 + ex3}</p>
+    <p>Number of excercises {parts[0].excercises + parts[1].excercises + parts[2].excercises}</p>
         
     )
 }
