@@ -2,6 +2,24 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 // import styled from 'styled-components'
 
+const Stat = ({text, value}) => {
+    
+    if( isNaN(value)) {
+        return (
+            <>
+                {text} 0
+            </>    
+        )
+    }
+    else {
+
+        return (
+                <>
+                    {text} {value}
+                </>
+            )
+        }
+}
  
 const App = () => {
 
@@ -12,15 +30,15 @@ const App = () => {
 
     const handleGoodClick = () => {
         setGood(good+1)
-        setAll(good+bad+neutral)
+        setAll(all+1)
     }
     const handleBadClick = () => {
         setBad(bad+1)
-        setAll(good+bad+neutral)
+        setAll(all-1)
     }
     const handleNeutralClick = () => {
         setNeutral(neutral+1)
-        setAll(good+bad+neutral)
+        setAll(all+0)
     } 
 
     return (
@@ -29,9 +47,12 @@ const App = () => {
         <button onClick={handleNeutralClick}>neutral</button>
         <button onClick={handleBadClick}>bad</button>
         <h1>Statistics</h1>
-        Good: {good} <br/>
-        Nuetral : {neutral} <br/>
-        Bad : {bad} <br/>
+        <Stat text="good" value={good}/> <br/>        
+        <Stat text="Neutral" value={neutral}/> <br/>
+        <Stat text="Bad" value={neutral}/> <br/>
+        <Stat text="all" value={good+neutral+bad}/> <br/>
+        <Stat text="average" value={all/(good+neutral+bad)}/> <br/>
+        <Stat text="positive" value={(good/(good+neutral+bad))*100}/>
         
         
        </div>    
