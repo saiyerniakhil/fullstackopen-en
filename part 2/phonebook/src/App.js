@@ -5,10 +5,15 @@ const App = () => {
     { name: 'Arto Hellas',
       number : '999999999',
       id : 0
-    }
+    },
+    { name: 'Ada Lovelace', number: '39-44-5323523',id:1 },
+    { name: 'Dan Abramov', number: '12-43-234345',id:2 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122',id:3 }
   ]) 
   const [ newName, setNewName ] = useState('')
   const [newNumber,setNewNumber] = useState('')
+  const [newFilter,setNewFilter]  = useState('')
+  const [filteredPerson,setFilteredPerson] = useState({})
 
   const checkExistence = (val) => {
     let hasMatch = false
@@ -20,6 +25,16 @@ const App = () => {
       }
     }
     return hasMatch
+  }
+  const checkFilter = (val) => {
+    
+    for (let i = 0;i < persons.length; ++i ) {
+      let personName = persons[i]["name"]
+      if(personName.toLowerCase().includes(val)) {
+        // console.log(persons[i])
+        setFilteredPerson(persons[i])
+      }
+    }
   }
 
   const handleFormSubmit = (event) => {
@@ -38,10 +53,20 @@ const App = () => {
   const handlePhoneChange = (event) => {
     setNewNumber(event.target.value)
   }
+  const handleFilterChange = (event) => {
+    setNewFilter(event.target.value)
+    let person = checkFilter(newFilter)
+    checkFilter(person)
+  }
 
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <input type="text" value={newFilter} onChange={handleFilterChange}/>
+
+      <p> {filteredPerson["name"]} {filteredPerson["number"]} </p>
+
       <form onSubmit={handleFormSubmit}>
         <div>
           name: <input value={newName} onChange={handleNameChange}/>
