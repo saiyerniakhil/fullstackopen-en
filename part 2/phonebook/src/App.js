@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Form from './components/Form'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -65,6 +66,8 @@ const App = () => {
 
       <input type="text" value={newFilter} onChange={handleFilterChange}/>
 
+      <h2>add a new</h2>
+
       <p> {filteredPerson["name"]} {filteredPerson["number"]} </p>
 
       <form onSubmit={handleFormSubmit}>
@@ -80,13 +83,10 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {
-        persons.map(person => (
-          <p key={person.id}>{person.name} {person.number}</p>
-        ))
-      }
+      <Form persons={persons}/>
     </div>
   )
 }
+
 
 export default App
