@@ -17,7 +17,8 @@ const App = () => {
       // console.log(initialPersons)
     })  
   }
-  useEffect(hook, [])
+  useEffect(hook, [persons])
+
 
   const checkExistence = (val) => {
     let hasMatch = false
@@ -40,8 +41,6 @@ const App = () => {
       }
     }
   }
-
-
 
   const handleSetPerson = (personObject) => {
     personService.create(personObject).then(returnedPerson => {
@@ -71,6 +70,19 @@ const App = () => {
     checkFilter(person)
   }
 
+
+  const handleAction = (person) => {
+    const result = window.confirm(`Do you want to delete ${person.name} from contacts`)
+    console.log(result)
+    result && personService.deleteVal(person)
+    .then(response => {console.log()})
+    .catch(error => console.log("error"))
+    
+    personService.getAll().then(updatedPersons => {
+      setPersons(updatedPersons)
+    })  
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -94,7 +106,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Form persons={persons}/>
+      <Form persons={persons} handleAction={handleAction}/>
     </div>
   )
 }
