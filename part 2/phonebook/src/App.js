@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
-import axios from 'axios'
 import Form from './components/Form'
+import personService from './services/numbers'
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
@@ -11,13 +11,11 @@ const App = () => {
 
   const hook = ()=> {
     console.log("effect")
-    axios.get("http://localhost:3001/persons")
-    .then(response => {
+    personService.getAll().then(initialPersons => {
       console.group("promise fulfilled")
-      setPersons(response.data)
-      console.log(response.data)
-    })
-  
+      setPersons(initialPersons)
+      console.log(initialPersons)
+    })  
   }
   useEffect(hook, [])
 
@@ -43,6 +41,12 @@ const App = () => {
     }
   }
 
+  const handleSetPerson = (personObject) => {
+    personService.create(personObject).then(returnedPerson => {
+      setPersons(persons.concat(returnedPerson))
+    })
+  }
+
   const handleFormSubmit = (event) => {
     event.preventDefault()
     const personObject = {
@@ -50,7 +54,7 @@ const App = () => {
       number : newNumber,
       id : persons.length + 1
     }
-    checkExistence(personObject) ? alert(`${personObject.name} is already added to the phonebook`) : setPersons(persons.concat(personObject))
+    checkExistence(personObject) ? alert(`${personObject.name} is already added to the phonebook`) : handleSetPerson(personObject)
   }
 
   const handleNameChange = (event) => {
