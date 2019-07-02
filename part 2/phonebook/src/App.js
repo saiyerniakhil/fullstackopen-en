@@ -8,13 +8,13 @@ const App = () => {
   const [newNumber,setNewNumber] = useState('')
   const [newFilter,setNewFilter]  = useState('')
   const [filteredPerson,setFilteredPerson] = useState({})
-
+  
   const hook = ()=> {
-    console.log("effect")
+    // console.log("effect")
     personService.getAll().then(initialPersons => {
-      console.group("promise fulfilled")
+      // console.group("promise fulfilled")
       setPersons(initialPersons)
-      console.log(initialPersons)
+      // console.log(initialPersons)
     })  
   }
   useEffect(hook, [])
@@ -40,6 +40,8 @@ const App = () => {
       }
     }
   }
+
+
 
   const handleSetPerson = (personObject) => {
     personService.create(personObject).then(returnedPerson => {
