@@ -1,6 +1,20 @@
 import React, { useState,useEffect } from 'react'
 import Form from './components/Form'
+import './index.css'
 import personService from './services/numbers'
+
+const Notification = ({message}) => {
+
+  if(message == null) {
+    return null;
+  }
+
+  return (
+    <div className="error"> 
+      {message}
+    </div>
+  )
+}
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
@@ -8,6 +22,7 @@ const App = () => {
   const [newNumber,setNewNumber] = useState('')
   const [newFilter,setNewFilter]  = useState('')
   const [filteredPerson,setFilteredPerson] = useState({})
+  const [erroMessage, setErrorMessage] = useState(null)
   
   const hook = ()=> {
     // console.log("effect")
@@ -47,7 +62,7 @@ const App = () => {
       setPersons(persons.concat(returnedPerson))
     })
   }
-
+//alert(`${personObject.name} is already added to the phonebook`)
   const handleFormSubmit = (event) => {
     event.preventDefault()
     const personObject = {
@@ -55,7 +70,7 @@ const App = () => {
       number : newNumber,
       id : persons.length + 1
     }
-    checkExistence(personObject) ? alert(`${personObject.name} is already added to the phonebook`) : handleSetPerson(personObject)
+    checkExistence(personObject) ? setErrorMessage(`${personObject.name} is already added to the phonebook`) : handleSetPerson(personObject)
   }
 
   const handleNameChange = (event) => {
@@ -86,12 +101,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Notification message={erroMessage}/>
       <input type="text" value={newFilter} onChange={handleFilterChange}/>
 
-      <h2>add a new</h2>
-
       <p> {filteredPerson["name"]} {filteredPerson["number"]} </p>
+
+      <h2>add a new</h2>
 
       <form onSubmit={handleFormSubmit}>
         <div>
