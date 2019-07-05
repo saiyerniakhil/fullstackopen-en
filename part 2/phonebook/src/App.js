@@ -62,7 +62,6 @@ const App = () => {
       setPersons(persons.concat(returnedPerson))
     })
   }
-//alert(`${personObject.name} is already added to the phonebook`)
   const handleFormSubmit = (event) => {
     event.preventDefault()
     const personObject = {
