@@ -1,10 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const morgan = require('morgan')
 
 const app = express()
 
 app.use(bodyParser.json())
-
+app.use(morgan('combined'))
 
 let persons =  [
       {
@@ -58,8 +59,34 @@ app.get("/info",(req,res) => {
     res.send(`Phonebook has info for ${total} people \n \n${d}`)
 })
 
+app.delete("/api/persons/:id",(req,res) => {
+  const id = Number(req.params.id)
+  console.log(id)
+  persons = persons.filter(item => item.id !== id)
+  res.status(204).end()
+})
+
+app.post("/api/persons",(req,res) => {
+  app.use(morgan('combined'))
+  id = Math.floor(Math.random() * 100000 + 1)
+  //console.log(id)
+
+  person = req.body
+  name = req.body.name
+  exists = persons.filter(item => item.name === name)
+
+  if(person.number) {
+    person.id = id 
+    persons = persons.concat(person)
+    res.json(person)
+  } else {
+    res.json({"error":"Number is missing"})
+  }
+})
+
 const PORT = 3000
 
 app.listen(PORT,()=>{
     console.log(`App is now live and running at ${PORT}`)
+    console.log('using morgan middle ware')
 })
