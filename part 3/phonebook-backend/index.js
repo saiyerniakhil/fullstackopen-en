@@ -37,7 +37,7 @@ let persons =  [
       }
 ]
 
-app.get("/",(req,res) => {
+app.get("/api",(req,res) => {
     res.send("<h1>Persons Data</h1>")
 })
 
