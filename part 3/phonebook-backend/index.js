@@ -1,11 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
 
 app.use(bodyParser.json())
 app.use(morgan('combined'))
+app.use(cors())
 
 let persons =  [
       {
@@ -84,7 +86,7 @@ app.post("/api/persons",(req,res) => {
   }
 })
 
-const PORT = 3000
+const PORT = 3001
 
 app.listen(PORT,()=>{
     console.log(`App is now live and running at ${PORT}`)
