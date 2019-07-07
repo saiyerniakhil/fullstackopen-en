@@ -32,7 +32,7 @@ const App = () => {
       // console.log(initialPersons)
     })  
   }
-  useEffect(hook, [persons])
+  useEffect(hook, [])
 
 
   const checkExistence = (val) => {
