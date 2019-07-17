@@ -1,7 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const Phonebook = require('./models/phone')
 
 const app = express()
 
@@ -43,17 +45,15 @@ app.get("/",(req,res) => {
 })
 
 app.get("/api/persons",(req,res) => {
-    res.json(persons)
+    Phonebook.find({}).then(persons => {
+      res.json(persons)
+    })
 })
 
 app.get("/api/persons/:id",(req,res) => {
-    const id = Number(req.params.id)
-    const reqPerson = persons.find(person => person.id !== id )
-    if(reqPerson) {
-        res.json(reqPerson)
-    } else {
-        res.status(404).end()
-    }
+    Phonebook.findById(req,params.id).then(contact => {
+      res.json(contact.toJSON())
+    })
 })
 
 app.get("/info",(req,res) => {
@@ -71,23 +71,24 @@ app.delete("/api/persons/:id",(req,res) => {
 
 app.post("/api/persons",(req,res) => {
   app.use(morgan('combined'))
-  id = Math.floor(Math.random() * 100000 + 1)
-  //console.log(id)
 
-  person = req.body
-  name = req.body.name
-  exists = persons.filter(item => item.name === name)
+  const body = request.body
 
-  if(person.number) {
-    person.id = id 
-    persons = persons.concat(person)
-    res.json(person)
-  } else {
-    res.json({"error":"Number is missing"})
+  if(body.content === undefined) {
+    return res.status(400).json({error: "content missing"})
   }
+
+  const person = new Phonebook({
+    name: body.name,
+    number: body.number,
+  })
+
+  person.save().then(savedContact => {
+    res.json(savedContact.toJSON())
+  })
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 
 app.listen(PORT,()=>{
     console.log(`App is now live and running at ${PORT}`)
