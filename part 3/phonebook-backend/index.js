@@ -72,10 +72,12 @@ app.delete("/api/persons/:id",(req,res) => {
 app.post("/api/persons",(req,res) => {
   app.use(morgan('combined'))
 
-  const body = request.body
+  const body = req.body
 
-  if(body.content === undefined) {
-    return res.status(400).json({error: "content missing"})
+  if(body.number === undefined) {
+    return res.status(400).json({error: "number missing"})
+  }else if(body.name === undefined) {
+    return res.status(400).json({error: "name missing"})
   }
 
   const person = new Phonebook({
