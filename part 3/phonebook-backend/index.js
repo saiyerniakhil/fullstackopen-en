@@ -12,6 +12,17 @@ app.use(morgan('combined'))
 app.use(cors())
 app.use(express.static('build'))
 
+const errorHandler = (error,request,response,next) => {
+  console.log(error.message)
+
+  if(error.name == 'CastError' && error.kind== 'ObjectId') {
+    return response.status(400).send({error: 'ill formatted id'})
+  }
+
+  next(error)
+}
+app.use(errorHandler)
+
 let persons =  [
       {
         "name": "Arto Hellas",
@@ -51,7 +62,7 @@ app.get("/api/persons",(req,res) => {
 })
 
 app.get("/api/persons/:id",(req,res) => {
-    Phonebook.findById(req,params.id).then(contact => {
+    Phonebook.findById(req.params.id).then(contact => {
       res.json(contact.toJSON())
     })
 })
@@ -62,11 +73,17 @@ app.get("/info",(req,res) => {
     res.send(`Phonebook has info for ${total} people \n \n${d}`)
 })
 
-app.delete("/api/persons/:id",(req,res) => {
-  const id = Number(req.params.id)
-  console.log(id)
-  persons = persons.filter(item => item.id !== id)
-  res.status(204).end()
+app.delete("/api/persons/:id",(req,res,next) => {
+  Phonebook.findByIdAndRemove(req.params.id)
+  .then(result => {
+    res.status(204).end()
+  })
+  .catch(error => next(error))
+
+  // const id = Number(req.params.id)
+  // console.log(id)
+  // persons = persons.filter(item => item.id !== id)
+  // res.status(204).end()
 })
 
 app.post("/api/persons",(req,res) => {
