@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:ui": "rm -rf build && cd ../'part 2'/phonebook && npm run build --prod && cp -r build cd ../../'part 3'/phonebook-backend/",
+    "build:ui": "rm -rf build && cd ../../'part 2'/phonebook && npm run build --prod && cp -r build ../../'part 3'/phonebook-backend/",
     "watch": "nodemon index.js",
     "start": "node index.js",
     "deploy": "git push heroku master",
