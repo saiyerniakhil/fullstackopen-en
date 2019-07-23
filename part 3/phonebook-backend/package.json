@@ -7,7 +7,7 @@
     "build:ui": "rm -rf build && cd ../../'part 2'/phonebook && npm run build --prod && cp -r build ../../'part 3'/phonebook-backend/",
     "watch": "nodemon index.js",
     "start": "node index.js",
-    "deploy": "git subtree push --prefix 'part 3'/phonebook-backend heroku master",
+    "deploy": "cd ../../ git subtree push --prefix 'git part 3'/phonebook-backend heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "test": "echo \"Error: no test specified\" && exit 1",
     "logs:prod": "heroku logs --tail"
