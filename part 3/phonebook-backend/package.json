@@ -10,11 +10,13 @@
     "deploy": "cd ../../ git subtree push --prefix 'git part 3'/phonebook-backend heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "logs:prod": "heroku logs --tail"
+    "logs:prod": "heroku logs --tail",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^6.2.2",
     "nodemon": "^1.19.1"
   },
   "dependencies": {
